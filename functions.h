@@ -12,4 +12,4 @@ typedef struct colonne COLONNE;
 
 #endif
 COLONNE *create_colonne(char* titre);
-int *insert_Value(COLONNE *col, int Data);
+int *insert_value(COLONNE *col, int Data);
