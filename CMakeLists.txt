@@ -4,4 +4,6 @@ project(cdataframe_roy_esteban_pp C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(cdataframe_roy_esteban_pp
-        main.c)
+        main.c
+        functions.c
+        functions.h)
