@@ -6,13 +6,18 @@ COLONNE *create_colonne(char* titre){
     COLONNE column1;
     COLONNE * column = &column1;
     column->titre = titre;
+    column->TL=0;
+    column->TP=256;
     return column;
 }
 
-int *insertValue(COLONNE *col, int data){
-    if (col->TL == 256){
+int *insert_value(COLONNE *col, int data) {
+    if (col->TL == 256) {
         printf("No");
     }
-    col->Data[col->TL + 1] = data;
-    col->TL++;
+    else {
+        col->Data[col->TL] = data;
+        col->TL++;
+        printf("Success\n");
+    }
 }
