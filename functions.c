@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-typedef struct colonne{
+struct colonne{
     char titre;
     int TP;
     int TL;
