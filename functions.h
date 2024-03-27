@@ -1,5 +1,6 @@
 #ifndef COLONNE_H
 #define COLONNE_H
+
 struct colonne{
     char* titre;
     int TP;
@@ -11,3 +12,4 @@ typedef struct colonne COLONNE;
 
 #endif
 COLONNE *create_colonne(char* titre);
+int *insert_Value(COLONNE *col, int Data);

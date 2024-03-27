@@ -6,5 +6,6 @@
 int main(){
     COLONNE *nouvelle_colonne = create_colonne("Colonne 1");
     printf("%s", nouvelle_colonne->titre);
+
     return 0;
 };
