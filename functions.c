@@ -2,6 +2,7 @@
 #include "functions.h"
 
 COLONNE *create_colonne(char* titre){
-    printf("Hello World");
+    COLONNE column;
+    column.titre = titre;
     return 0;
 }

@@ -1,7 +1,7 @@
 #ifndef COLONNE_H
 #define COLONNE_H
 struct colonne{
-    char titre;
+    char* titre;
     int TP;
     int TL;
     int Data[256];
