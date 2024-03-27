@@ -1,0 +1,1 @@
+COLONNE *create_colonne(char* titre);

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "functions.h"
 
 struct colonne{
     char titre;
@@ -8,3 +9,7 @@ struct colonne{
 };
 
 typedef struct colonne COLONNE;
+
+COLONNE *create_colonne(char* titre){
+
+}
