@@ -8,5 +8,8 @@ int main(){
     printf("%s\n", nouvelle_colonne->titre);
     insert_value(nouvelle_colonne, 90);
     printf("%d", nouvelle_colonne->Data[0]);
+    insert_value(nouvelle_colonne, 2);
+    printf("%d", nouvelle_colonne->Data[1]);
+    delete_column(nouvelle_colonne);
     return 0;
 };
