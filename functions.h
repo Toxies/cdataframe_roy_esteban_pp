@@ -20,4 +20,5 @@ void print_col(COLONNE * col);
 int occurence(int x,COLONNE * col);
 int valeurenposition(int x,COLONNE * col);
 int valeursupérieur(int x,COLONNE * col);
+int valeurinférieur(int x,COLONNE * col);
 #endif

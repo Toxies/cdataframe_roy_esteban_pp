@@ -77,3 +77,14 @@ int valeursupérieur(int x,COLONNE * col){
     return valeurssupérieur;
 }
 
+int valeurinférieur(int x,COLONNE * col){
+    int valeurinférieur = 0;
+    for (int i = 0; i < col->TL; i++) {
+        if ((*(col->Data + i)) < x){
+            valeurinférieur++;
+        }
+    }
+    return valeurinférieur;
+}
+
+
