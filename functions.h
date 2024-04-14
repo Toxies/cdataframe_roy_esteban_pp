@@ -19,4 +19,5 @@ void delete_column(COLONNE* col);
 void print_col(COLONNE * col);
 int occurence(int x,COLONNE * col);
 int valeurenposition(int x,COLONNE * col);
+int valeursupérieur(int x,COLONNE * col);
 #endif

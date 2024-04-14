@@ -67,3 +67,13 @@ int valeurenposition(int x, COLONNE* col) {
     }
 }
 
+int valeursupérieur(int x,COLONNE * col){
+    int valeurssupérieur = 0;
+    for (int i = 0; i < col->TL; i++) {
+        if ((*(col->Data + i)) > x){
+            valeurssupérieur++;
+        }
+    }
+    return valeurssupérieur;
+}
+
