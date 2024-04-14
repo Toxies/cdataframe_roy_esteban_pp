@@ -18,6 +18,39 @@ COLONNE* create_colonne(char* titre) {
     return column;
 }
 
+struct DATAFRAME* create_dataframe(char* titre) {
+    struct DATAFRAME* dataframe = malloc(sizeof(DATAFRAME));  // Allocate memory for the column
+    if (dataframe != NULL) {
+        dataframe->titre = titre;
+        dataframe->TL = 0;
+        dataframe->TP = 256;
+        dataframe->Data = malloc(sizeof(COLONNE) * 256);
+        if (dataframe->Data == NULL) {
+            // Handle memory allocation failure
+            free(dataframe);
+            return NULL;
+        }
+    }
+    return dataframe;
+}
+
+int insert_column(COLONNE* col, DATAFRAME* Dataframe) {
+    if (Dataframe == NULL || Dataframe->Data == NULL) {
+        // Invalid column or memory not allocated
+        return -1;  // Return an error code
+    }
+
+    if (Dataframe->TL == Dataframe->TP) {
+        printf("Dataframe is full\n");
+        return -1;  // Return an error code
+    }
+
+    Dataframe->Data[Dataframe->TL] = col;
+    Dataframe->TL++;
+    printf("Success\n");
+    return 0;  // Return success code
+}
+
 int insert_value(COLONNE* col, int data) {
     if (col == NULL || col->Data == NULL) {
         // Invalid column or memory not allocated

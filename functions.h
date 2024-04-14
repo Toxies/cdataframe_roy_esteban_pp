@@ -11,7 +11,15 @@ struct colonne {
     int* Data;
 };
 
+struct DATAFRAME {
+    char* titre;
+    int TP;
+    int TL;
+    COLONNE Data;
+};
+
 typedef struct colonne COLONNE;
+typedef struct DATAFRAME DATAFRAME;
 
 COLONNE* create_colonne(char* titre);
 int insert_value(COLONNE* col, int data);
