@@ -21,4 +21,5 @@ int occurence(int x,COLONNE * col);
 int valeurenposition(int x,COLONNE * col);
 int valeursupérieur(int x,COLONNE * col);
 int valeurinférieur(int x,COLONNE * col);
+int valeurégale(int x,COLONNE * col);
 #endif

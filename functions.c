@@ -87,4 +87,14 @@ int valeurinférieur(int x,COLONNE * col){
     return valeurinférieur;
 }
 
+int valeurégale(int x,COLONNE * col){
+    int valeuregale = 0;
+    for (int i = 0; i < col->TL; i++) {
+        if ((*(col->Data + i)) == x){
+            valeuregale++;
+        }
+    }
+    return valeuregale;
+}
+
 
