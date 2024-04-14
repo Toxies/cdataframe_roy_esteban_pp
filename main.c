@@ -19,7 +19,7 @@ int main(){
     insert_column(nouvelle_colonne, dataframe);
     insert_column(nouvelle_colonne2, dataframe);
     printdataframe(dataframe);
-    insert_value(&dataframe->Data[1], 920);
+    insert_value(&dataframe->Data[1], 50);
     printdataframe(dataframe);
     return 0;
 };

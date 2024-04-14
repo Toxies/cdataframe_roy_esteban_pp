@@ -136,15 +136,19 @@ void print_colDataframePos(DATAFRAME * Dataframe, int position){
     }
 }
 
-void printdataframe(DATAFRAME * Dataframe){
-    printf("%s \n", Dataframe->titre);
-    for (int i = 0; i < Dataframe->TL;i++){
-        printf("[%d] ", i);
-        for (int j = 0; j < Dataframe->TL; j++) {
-            COLONNE *col = &(Dataframe->Data[j]);
-            if (i < col->TL) {
-                printf("%d ", (col->Data[i]));
-            }
+void printdataframe(DATAFRAME* Dataframe) {
+    printf("%s\t", Dataframe->titre);
+
+    for (int i = 0; i < Dataframe->TL; i++) {
+        printf("%s\t", Dataframe->Data[i].titre);
+    }
+    printf("\n");
+
+
+    for (int i = 0; i < Dataframe->TL; i++) {
+        printf("[%d]\t", i);
+        for (int j = 0; j < Dataframe->Data[i].TL; j++) {
+            printf("\t%d\t", Dataframe->Data[i].Data[j]);
         }
         printf("\n");
     }
