@@ -32,4 +32,5 @@ int valeurinférieur(int x,COLONNE * col);
 int valeurégale(int x,COLONNE * col);
 struct DATAFRAME* create_dataframe(char* titre);
 int insert_column(COLONNE* col, DATAFRAME* Dataframe);
+void print_colDataframePos(DATAFRAME * Dataframe, int position);
 #endif

@@ -128,4 +128,12 @@ int valeurégale(int x,COLONNE * col){
     return valeuregale;
 }
 
+void print_colDataframePos(DATAFRAME * Dataframe, int position){
+    COLONNE * col = &(Dataframe->Data[position]);
+    printf("%s \n", Dataframe->titre);
+    for (int i = 0; i < col->TL;i++){
+        printf("[%d] %d \n", i, *(col->Data + i));
+    }
+}
+
 
