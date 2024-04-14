@@ -13,5 +13,11 @@ int main(){
     print_col(nouvelle_colonne);
     int a = valeurenposition(10, nouvelle_colonne);
     printf("%d", a);
+    DATAFRAME *dataframe = create_dataframe("Dataframe");
+    COLONNE  *nouvelle_colonne2 = create_colonne("Colonne 2");
+    insert_value(nouvelle_colonne2, 2);
+    insert_column(nouvelle_colonne, dataframe);
+    insert_column(nouvelle_colonne2, dataframe);
+    print_col(&(dataframe->Data[1]));
     return 0;
 };

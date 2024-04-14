@@ -10,15 +10,15 @@ struct colonne {
     int TL;
     int* Data;
 };
+typedef struct colonne COLONNE;
 
-struct DATAFRAME {
+struct DATAFRAME{
     char* titre;
     int TP;
     int TL;
-    COLONNE Data;
+    COLONNE* Data;  // Pointer to an array of COLONNE structures
 };
 
-typedef struct colonne COLONNE;
 typedef struct DATAFRAME DATAFRAME;
 
 COLONNE* create_colonne(char* titre);
@@ -30,4 +30,6 @@ int valeurenposition(int x,COLONNE * col);
 int valeursupérieur(int x,COLONNE * col);
 int valeurinférieur(int x,COLONNE * col);
 int valeurégale(int x,COLONNE * col);
+struct DATAFRAME* create_dataframe(char* titre);
+int insert_column(COLONNE* col, DATAFRAME* Dataframe);
 #endif

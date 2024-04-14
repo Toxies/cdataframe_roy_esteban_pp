@@ -34,19 +34,17 @@ struct DATAFRAME* create_dataframe(char* titre) {
     return dataframe;
 }
 
+
 int insert_column(COLONNE* col, DATAFRAME* Dataframe) {
-    if (Dataframe == NULL || Dataframe->Data == NULL) {
-        // Invalid column or memory not allocated
+    if (Dataframe == NULL || col == NULL) {
+        printf("Invalid arguments\n");
         return -1;  // Return an error code
     }
 
-    if (Dataframe->TL == Dataframe->TP) {
-        printf("Dataframe is full\n");
-        return -1;  // Return an error code
-    }
-
-    Dataframe->Data[Dataframe->TL] = col;
+    // Insert the column into the dataframe
+    Dataframe->Data[Dataframe->TL] = *col;
     Dataframe->TL++;
+
     printf("Success\n");
     return 0;  // Return success code
 }
