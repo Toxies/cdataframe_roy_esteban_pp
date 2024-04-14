@@ -17,4 +17,5 @@ COLONNE* create_colonne(char* titre);
 int insert_value(COLONNE* col, int data);
 void delete_column(COLONNE* col);
 void print_col(COLONNE * col);
+int Occurence(int x,COLONNE * col);
 #endif

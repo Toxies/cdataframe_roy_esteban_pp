@@ -47,3 +47,13 @@ void print_col(COLONNE * col){
         printf("[%d] %d \n", i, *(col->Data + i));
     }
 }
+
+int Occurence(int x,COLONNE * col) {
+    int Occurence = 0;
+    for (int i = 0; i < col->TL; i++) {
+        if ((*(col->Data + i)) == x){
+            Occurence++;
+        }
+    }
+    return Occurence;
+}
