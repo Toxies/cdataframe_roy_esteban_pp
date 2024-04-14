@@ -15,9 +15,11 @@ int main(){
     printf("%d", a);
     DATAFRAME *dataframe = create_dataframe("Dataframe");
     COLONNE  *nouvelle_colonne2 = create_colonne("Colonne 2");
-    insert_value(nouvelle_colonne2, 2);
+    insert_value(nouvelle_colonne2, 3);
     insert_column(nouvelle_colonne, dataframe);
     insert_column(nouvelle_colonne2, dataframe);
-    print_colDataframePos(dataframe, 0);
+    printdataframe(dataframe);
+    insert_value(&dataframe->Data[1], 920);
+    printdataframe(dataframe);
     return 0;
 };
