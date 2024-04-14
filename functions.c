@@ -42,3 +42,8 @@ void delete_column(COLONNE* col) {
     }
 }
 
+void print_col(COLONNE * col){
+    for (int i = 0; i < col->TL;i++){
+        printf("[%d] %d \n", i, *(col->Data + i));
+    }
+}
