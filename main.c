@@ -11,5 +11,7 @@ int main(){
     insert_value(nouvelle_colonne, 2);
     printf("%d \n", nouvelle_colonne->Data[1]);
     print_col(nouvelle_colonne);
+    int a = valeurenposition(10, nouvelle_colonne);
+    printf("%d", a);
     return 0;
 };

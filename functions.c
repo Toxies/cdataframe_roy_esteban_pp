@@ -48,7 +48,7 @@ void print_col(COLONNE * col){
     }
 }
 
-int Occurence(int x,COLONNE * col) {
+int occurence(int x,COLONNE * col) {
     int Occurence = 0;
     for (int i = 0; i < col->TL; i++) {
         if ((*(col->Data + i)) == x){
@@ -57,3 +57,13 @@ int Occurence(int x,COLONNE * col) {
     }
     return Occurence;
 }
+
+int valeurenposition(int x, COLONNE* col) {
+    if (x >= 0 && x < col->TL) {
+        return col->Data[x];
+    } else {
+        printf("Position invalide\n");
+        return -1;
+    }
+}
+
