@@ -35,6 +35,10 @@ int insert_value(COLONNE* col, int data) {
     return 0;  // Return success code
 }
 
-void delete_column(COLONNE* col){
-    free(col->Data);
+void delete_column(COLONNE* col) {
+    if (col != NULL) {
+        free(col->Data);
+        free(col);
+    }
 }
+
