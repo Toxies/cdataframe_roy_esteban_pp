@@ -19,7 +19,11 @@ int main(){
     insert_column(nouvelle_colonne, dataframe);
     insert_column(nouvelle_colonne2, dataframe);
     printdataframe(dataframe);
-    insert_value(&dataframe->Data[1], 50);
+    insert_value(dataframe->Data[1], 50);
     printdataframe(dataframe);
+    printf("%d \n", verifyExistence(dataframe, 54));
+    replacevalue(dataframe, 10, 1, 0);
+    printdataframe(dataframe);
+    partialdataframeprint(dataframe, 0, 1);
     return 0;
 };
