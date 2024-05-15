@@ -16,7 +16,7 @@ struct DATAFRAME{
     char* titre;
     int TP;
     int TL;
-    COLONNE* Data;  // Pointer to an array of COLONNE structures
+    COLONNE** Data;  // Pointer to an array of COLONNE structures
 };
 
 typedef struct DATAFRAME DATAFRAME;
@@ -34,4 +34,7 @@ struct DATAFRAME* create_dataframe(char* titre);
 int insert_column(COLONNE* col, DATAFRAME* Dataframe);
 void print_colDataframePos(DATAFRAME * Dataframe, int position);
 void printdataframe(DATAFRAME * Dataframe);
+int verifyExistence(DATAFRAME * Dataframe, int value);
+int replacevalue(DATAFRAME * Dataframe, int value, int posx,int posy);
+void partialdataframeprint(DATAFRAME * Dataframe, int x1,int x2);
 #endif
