@@ -15,6 +15,6 @@ int main(){
     insert_column(nouvelle_colonne, dataframe);
     insert_column(nouvelle_colonne2, dataframe);
     // insert_value(dataframe->Data[0], 50);
-    printdataframe(dataframe);
+    printdataframe2(dataframe);
     return 0;
 };

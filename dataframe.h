@@ -34,5 +34,6 @@ void printdataframe(DATAFRAME * Dataframe);
 int verifyExistence(DATAFRAME * Dataframe, int value);
 int replacevalue(DATAFRAME * Dataframe, int value, int posx,int posy);
 void partialdataframeprint(DATAFRAME * Dataframe, int x1,int x2);
+void printdataframe2(DATAFRAME* Dataframe);
 
 #endif //CDATAFRAME_ROY_ESTEBAN_PP_DATAFRAME_H
