@@ -42,7 +42,7 @@ int insert_column(COLONNE* col, DATAFRAME* Dataframe) {
     }
 
     // Insert the column into the dataframe
-    Dataframe->Data[Dataframe->TL] = *col;
+    Dataframe->Data[Dataframe->TL] = col;
     Dataframe->TL++;
 
     printf("Success\n");
@@ -137,21 +137,68 @@ void print_colDataframePos(DATAFRAME * Dataframe, int position){
 }
 
 void printdataframe(DATAFRAME* Dataframe) {
-    printf("%s\t", Dataframe->titre);
+    printf("%s\n", Dataframe->titre);
 
+    // Print column titles
     for (int i = 0; i < Dataframe->TL; i++) {
-        printf("%s\t", Dataframe->Data[i].titre);
+        printf("%s\t", (Dataframe->Data[i])->titre);
     }
     printf("\n");
 
-
-    for (int i = 0; i < Dataframe->TL; i++) {
-        printf("[%d]\t", i);
-        for (int j = 0; j < Dataframe->Data[i].TL; j++) {
-            printf("\t%d\t", Dataframe->Data[i].Data[j]);
+    // Print data in columns
+    for (int j = 0; j < Dataframe->TL; j++) {
+        for (int i = 0; i < Dataframe->TL; i++) {
+            if (j < Dataframe->Data[i]->TL) {
+                printf("\t%d\t", Dataframe->Data[i]->Data[j]);
+            } else {
+                printf("\t");
+            }
         }
         printf("\n");
     }
 }
 
+int verifyExistence(DATAFRAME * Dataframe, int value){
+    int Found = 0;
+    int i = 0;
+    while (Found == 0 && i < Dataframe->TL){
+        if (occurence(value, Dataframe->Data[i])){
+            Found = 1;
+        }
+        i++;
+    }
+    return Found;
+}
+
+int replacevalue(DATAFRAME * Dataframe, int value, int posx,int posy){
+    if (posx > Dataframe->TL || posx < 0 || posy < 0){
+        return -1;
+    }
+    if (posx > Dataframe->Data[posy]->TL) {
+        return -1;
+    }
+    Dataframe->Data[posy]->Data[posx] = value;
+    return 1;
+}
+
+void partialdataframeprint(DATAFRAME * Dataframe, int x1, int x2) {
+    printf("%s\n", Dataframe->titre);
+
+
+    for (int i = x1; i < x2; i++) {
+        printf("%s\t", (Dataframe->Data[i])->titre);
+    }
+    printf("\n");
+
+    for (int j = 0; j < Dataframe->TL; j++) {
+        for (int i = x1; i < x2; i++) {
+            if (j < Dataframe->Data[i]->TL) {
+                printf("\t%d\t", Dataframe->Data[i]->Data[j]);
+            } else {
+                printf("\t");
+            }
+        }
+        printf("\n");
+    }
+}
 
