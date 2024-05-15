@@ -1,16 +1,10 @@
-#ifndef COLONNE_H
-#define COLONNE_H
+//
+// Created by esteb on 15/05/2024.
+//
 
-#include <stdlib.h>
-#include <stdio.h>
-
-struct colonne {
-    char* titre;
-    int TP;
-    int TL;
-    int* Data;
-};
-typedef struct colonne COLONNE;
+#ifndef CDATAFRAME_ROY_ESTEBAN_PP_DATAFRAME_H
+#define CDATAFRAME_ROY_ESTEBAN_PP_DATAFRAME_H
+#include "colonne.h"
 
 struct DATAFRAME{
     char* titre;
@@ -21,15 +15,18 @@ struct DATAFRAME{
 
 typedef struct DATAFRAME DATAFRAME;
 
-COLONNE* create_colonne(char* titre);
-int insert_value(COLONNE* col, int data);
-void delete_column(COLONNE* col);
-void print_col(COLONNE * col);
-int occurence(int x,COLONNE * col);
-int valeurenposition(int x,COLONNE * col);
-int valeursupérieur(int x,COLONNE * col);
-int valeurinférieur(int x,COLONNE * col);
-int valeurégale(int x,COLONNE * col);
+typedef struct lnode_ {
+    void *data; // Pointer to a column
+    struct lnode_ *prev;
+    struct lnode_ *next;
+} LNODE;
+
+typedef struct list_ {
+    LNODE *head;
+    LNODE *tail;
+} LIST;
+typedef LIST CDATAFRAME;
+
 struct DATAFRAME* create_dataframe(char* titre);
 int insert_column(COLONNE* col, DATAFRAME* Dataframe);
 void print_colDataframePos(DATAFRAME * Dataframe, int position);
@@ -37,4 +34,5 @@ void printdataframe(DATAFRAME * Dataframe);
 int verifyExistence(DATAFRAME * Dataframe, int value);
 int replacevalue(DATAFRAME * Dataframe, int value, int posx,int posy);
 void partialdataframeprint(DATAFRAME * Dataframe, int x1,int x2);
-#endif
+
+#endif //CDATAFRAME_ROY_ESTEBAN_PP_DATAFRAME_H

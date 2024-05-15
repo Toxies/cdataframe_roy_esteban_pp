@@ -5,5 +5,8 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(cdataframe_roy_esteban_pp
         main.c
-        functions.c
-        functions.h)
+        dataframe.c
+        dataframe.h
+        colonne.c
+        colonne.h
+)
