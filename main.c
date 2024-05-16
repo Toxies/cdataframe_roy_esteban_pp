@@ -15,6 +15,10 @@ int main(){
     insert_column(nouvelle_colonne, dataframe);
     insert_column(nouvelle_colonne2, dataframe);
     // insert_value(dataframe->Data[0], 50);
-    printdataframe2(dataframe);
+    printdataframe(dataframe);
+    for (int i = 0; i < dataframe->TL; i++){
+        print_colDataframePos(dataframe, i);}
+    print_all_column_names(dataframe);
+    amount_of_columns(dataframe);
     return 0;
 };

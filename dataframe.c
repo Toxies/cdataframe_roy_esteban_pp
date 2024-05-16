@@ -44,6 +44,10 @@ int insert_column(COLONNE* col, DATAFRAME* Dataframe) {
 void print_colDataframePos(DATAFRAME * Dataframe, int position){
     COLONNE * col = Dataframe->Data[position];
     printf("%s \n", Dataframe->titre);
+    // Print column titles
+    printf("%s\t", (Dataframe->Data[position])->titre);
+
+    printf("\n");
     for (int i = 0; i < col->TL;i++){
         printf("[%d] %d \n", i, *(col->Data + i));
     }
@@ -115,51 +119,32 @@ void partialdataframeprint(DATAFRAME * Dataframe, int x1, int x2) {
     }
 }
 
-
-void printdataframe1(DATAFRAME* Dataframe) {
-    printf("%s\n", Dataframe->titre);
-
+void print_all_column_names(DATAFRAME * Dataframe){
     // Print column titles
     for (int i = 0; i < Dataframe->TL; i++) {
         printf("%s\t", (Dataframe->Data[i])->titre);
     }
     printf("\n");
-
-    // Print data in columns
-    for (int j = 0; j < Dataframe->TL; j++) {
-        for (int i = 0; i < Dataframe->TL; i++) {
-            if (j < Dataframe->Data[i]->TL) {
-                printf("\t%d\t", Dataframe->Data[i]->Data[j]);
-            } else {
-                printf("\t");
-            }
-        }
-        printf("\n");
-    }
 }
 
-void printdataframe2(DATAFRAME* Dataframe) {
-
-    // Print Dataframe title
-    printf("\t %s", Dataframe->titre);
-    printf("\n");
-
-    // Print Column title
-    for (int num_col = 0; num_col < Dataframe->TL; num_col++) {
-        printf("%s\t", (Dataframe->Data[num_col])->titre);
+void amount_of_columns(DATAFRAME * Dataframe){
+    int cpt=0;
+    for (int i = 0; i < Dataframe->TL; i++){
+        cpt++;
     }
-    printf("\n");
+    printf("%d column(s) in the Dataframe\n" ,cpt);
+}
 
-    // Print Column data
-    for (int i = 0; i < Dataframe->TL; i++) {
-        for (int j = 0; j < Dataframe->TL; j++) {
-            /*if (pointer has no value){
-                printf("\t\t");
-            }
-            else {
-                printf("%d\t\t", (Dataframe->Data[j])->Data[i]);
-            }*/
-        }
-        printf("\n");
+void rename_column(DATAFRAME * Dataframe){
+    char new_col_name[20];
+    int col_pos = -1;
+    while (col_pos <= -1){
+        printf("What column do you want to change ?\n");
+        scanf("%d", &col_pos);
     }
+    printf("What is the new column name ?\n");
+    scanf("%s", new_col_name);
+    printf("%s",(Dataframe->Data[col_pos])->titre);
+    (Dataframe->Data[col_pos])->titre = new_col_name;
+    printf(" is now : %s", (Dataframe->Data[col_pos])->titre);
 }
