@@ -148,3 +148,27 @@ void rename_column(DATAFRAME * Dataframe){
     (Dataframe->Data[col_pos])->titre = new_col_name;
     printf(" is now : %s", (Dataframe->Data[col_pos])->titre);
 }
+
+void fill_dataframe_user_input(){
+    int value_to_insert, col_number = 0, bool = 0, choice;
+    char name_new_dataframe[20], first_col_name[20];
+    printf("Dataframe name ?\n");
+    scanf("%s", name_new_dataframe);
+    DATAFRAME *new_dataframe = create_dataframe(name_new_dataframe);
+    printf("First Column name ?\n");
+    scanf("%s", first_col_name);
+    COLONNE *first_col = create_colonne(first_col_name);
+    while (bool == 0){
+        printf("Do you want to insert a value ?\n[1 for yes / 0 for no]\n");
+        scanf("%d", &choice);
+        if (choice == 1) {
+            printf("What is the value to insert ?\n");
+            scanf("%d", &value_to_insert);
+
+            insert_value(first_col, value_to_insert);
+        }
+        if (choice == 0) {
+            bool++;
+        }
+    }
+}

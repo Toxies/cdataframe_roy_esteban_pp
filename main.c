@@ -20,5 +20,6 @@ int main(){
         print_colDataframePos(dataframe, i);}
     print_all_column_names(dataframe);
     amount_of_columns(dataframe);
+    fill_dataframe_user_input();
     return 0;
 };

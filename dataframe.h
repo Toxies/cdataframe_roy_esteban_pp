@@ -37,5 +37,6 @@ void partialdataframeprint(DATAFRAME * Dataframe, int x1,int x2);
 void print_all_column_names(DATAFRAME * Dataframe);
 void amount_of_columns(DATAFRAME * Dataframe);
 void rename_column(DATAFRAME * Dataframe);
+void fill_dataframe_user_input();
 
 #endif //CDATAFRAME_ROY_ESTEBAN_PP_DATAFRAME_H
