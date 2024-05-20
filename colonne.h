@@ -16,7 +16,7 @@ void afficher_colonne(const COLONNE *col);
 void trier_colonne(COLONNE *col);
 int obtenir_valeur_a(const COLONNE *col, int index);
 int compter_occurrences(const COLONNE *col, int x);
-int compter_supÃ©rieures_a(const COLONNE *col, int x);
+int compter_superieures_a(const COLONNE *col, int x);
 int compter_inferieures_a(const COLONNE *col, int x);
 int compter_egales_a(const COLONNE *col, int x);
 void supprimer_colonne(COLONNE **col);

@@ -51,7 +51,7 @@ int main() {
     afficher_dataframe(df);
 
     printf("Nombre de valeurs egales a 42: %d\n", compter_egales_a(col1, 42));
-    printf("Nombre de valeurs superieures a 5: %d\n", compter_supÃ©rieures_a(col1, 5));
+    printf("Nombre de valeurs superieures a 5: %d\n", compter_superieures_a(col1, 5));
     printf("Nombre de valeurs inferieures a 10: %d\n", compter_inferieures_a(col1, 10));
 
     liberer_dataframe(&df);

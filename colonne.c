@@ -52,7 +52,7 @@ int compter_occurrences(const COLONNE *col, int x) {
     return compteur;
 }
 
-int compter_supérieures_a(const COLONNE *col, int x) {
+int compter_superieures_a(const COLONNE *col, int x) {
     int compteur = 0;
     for (int i = 0; i < col->taille; i++) {
         if (col->valeurs[i] > x) compteur++;
