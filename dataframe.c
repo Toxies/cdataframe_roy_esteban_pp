@@ -2,81 +2,61 @@
 #include <stdlib.h>
 #include "dataframe.h"
 
-// Fonction pour créer un nouveau dataframe
+// Ceci est le fichier d'implémentation pour les dataframes
+// On implémente ici les fonctions pour gérer un dataframe
+
 DATAFRAME *creer_dataframe() {
-    // Alloue de la mémoire pour le dataframe
-    DATAFRAME *df = (DATAFRAME *)malloc(sizeof(DATAFRAME));
-    // Initialise les pointeurs de tête et de queue à NULL
-    df->tete = NULL;
-    df->queue = NULL;
-    return df; 
+    DATAFRAME *df = (DATAFRAME *)malloc(sizeof(DATAFRAME)); // On alloue de la mémoire pour le dataframe
+    df->tete = NULL; // On initialise la tête à NULL
+    df->queue = NULL; // On initialise la queue à NULL
+    return df; // On retourne le nouveau dataframe
 }
 
-// Fonction pour ajouter une colonne au dataframe
 void ajouter_colonne_dataframe(DATAFRAME *df, COLONNE *col) {
-    // Alloue de la mémoire pour un nouveau nœud de colonne
-    NOEUD_COLONNE *nouveau_noeud = (NOEUD_COLONNE *)malloc(sizeof(NOEUD_COLONNE));
-    // Affecte la colonne donnée au nouveau nœud
-    nouveau_noeud->col = col;
-    // Initialise les pointeurs suivant et précédent du nouveau nœud
-    nouveau_noeud->suivant = NULL;
-    nouveau_noeud->precedent = df->queue;
+    NOEUD_COLONNE *nouveau_noeud = (NOEUD_COLONNE *)malloc(sizeof(NOEUD_COLONNE)); // On alloue de la mémoire pour un nouveau noeud
+    nouveau_noeud->col = col; // On assigne la colonne au noeud
+    nouveau_noeud->suivant = NULL; // Le noeud suivant est NULL
+    nouveau_noeud->precedent = df->queue; // Le noeud précédent est la queue actuelle
 
-    // Vérifie si la queue du dataframe existe
     if (df->queue) {
-        // Si oui, relie le nouveau nœud à la queue existante
-        df->queue->suivant = nouveau_noeud;
+        df->queue->suivant = nouveau_noeud; // Si la queue existe, on lie le noeud actuel à la queue
     } else {
-        // Sinon, le nouveau nœud devient la tête du dataframe
-        df->tete = nouveau_noeud;
+        df->tete = nouveau_noeud; // Sinon, la tête devient le nouveau noeud
     }
-    // Met à jour la queue pour pointer vers le nouveau nœud
-    df->queue = nouveau_noeud;
+    df->queue = nouveau_noeud; // La queue est mise à jour au nouveau noeud
 }
 
-// Fonction pour supprimer une colonne du dataframe à un index donné
-void supprimer_colonne_a(DATAFRAME *df, int index) {
-    // Vérifie si le dataframe est valide et si l'index est positif
-    if (!df || index < 0) 
-        return;
+void supprimer_colonne_a_dataframe(DATAFRAME *df, int index) {
+    if (!df || index < 0) return;
 
-    // Initialise un pointeur vers le nœud actuel
     NOEUD_COLONNE *actuel = df->tete;
-    // Parcourt les nœuds jusqu'à atteindre l'index ou la fin du dataframe
-    for (int i = 0; actuel && i < index; i++) {
+    int compteur = 0;
+    while (actuel && compteur < index) {
         actuel = actuel->suivant;
-    }
-    // Si aucun nœud n'a été trouvé à l'index donné, ou si le dataframe est vide, retourne
-    if (!actuel) 
-        return;
-
-    // Relie le nœud précédent du nœud actuel avec son nœud suivant
-    if (actuel->precedent) {
-        actuel->precedent->suivant = actuel->suivant;
-    } else {
-        df->tete = actuel->suivant;
+        compteur++;
     }
 
-    // Relie le nœud suivant du nœud actuel avec son nœud précédent
-    if (actuel->suivant) {
-        actuel->suivant->precedent = actuel->precedent;
-    } else {
-        df->queue = actuel->precedent;
-    }
+    if (actuel) {
+        if (actuel->precedent) {
+            actuel->precedent->suivant = actuel->suivant; // On lie le noeud précédent au suivant
+        } else {
+            df->tete = actuel->suivant; // Sinon, la tête est mise à jour
+        }
 
-    // Libère la mémoire occupée par la colonne du nœud actuel
-    supprimer_colonne(&(actuel->col));
-    // Libère la mémoire occupée par le nœud actuel
-    free(actuel);
+        if (actuel->suivant) {
+            actuel->suivant->precedent = actuel->precedent; // On lie le noeud suivant au précédent
+        } else {
+            df->queue = actuel->precedent; // Sinon, la queue est mise à jour
+        }
+
+        supprimer_colonne(&actuel->col); // On supprime la colonne
+        free(actuel); // On libère le noeud
+    }
 }
 
-// Fonction pour afficher les valeurs du dataframe
 void afficher_dataframe(const DATAFRAME *df) {
-    // Vérifie si le dataframe est valide
-    if (!df) 
-        return;
+    if (!df) return;
 
-    // Affiche les titres des colonnes
     NOEUD_COLONNE *actuel = df->tete;
     while (actuel) {
         printf("%s\t", actuel->col->titre);
@@ -84,179 +64,184 @@ void afficher_dataframe(const DATAFRAME *df) {
     }
     printf("\n");
 
-    // Trouve le nombre maximum de lignes
-    int max_lignes = nombre_de_lignes(df);
-
-    // Affiche les valeurs
-    for (int i = 0; i < max_lignes; i++) {
+    int lignes = nombre_de_lignes_dataframe(df);
+    for (int i = 0; i < lignes; i++) {
         actuel = df->tete;
         while (actuel) {
-            if (i < actuel->col->taille) {
-                printf("\t%d\t", actuel->col->valeurs[i]);
-            } else {
-                printf("\t");
-            }
+            printf("%d\t", obtenir_valeur_colonne(actuel->col, i));
             actuel = actuel->suivant;
         }
         printf("\n");
     }
 }
 
-// Fonction pour libérer la mémoire occupée par le dataframe
 void liberer_dataframe(DATAFRAME **df) {
-    // Vérifie si le dataframe existe
-    if (*df) {
-        // Initialise un pointeur vers le nœud actuel
-        NOEUD_COLONNE *actuel = (*df)->tete;
-        // Parcourt tous les nœuds du dataframe
-        while (actuel) {
-            // Garde une référence au prochain nœud
-            NOEUD_COLONNE *suivant = actuel->suivant;
-            // Libère la mémoire occupée par la colonne du nœud actuel
-            supprimer_colonne(&(actuel->col));
-            // Libère la mémoire occupée par le nœud actuel
-            free(actuel);
-            // Passe au prochain nœud
-            actuel = suivant;
-        }
-        // Libère la mémoire occupée par le dataframe lui-même
-        free(*df);
-        // Affecte NULL au pointeur de dataframe pour éviter les fuites de mémoire
-        *df = NULL;
+    if (!df || !*df) return;
+
+    NOEUD_COLONNE *actuel = (*df)->tete;
+    while (actuel) {
+        NOEUD_COLONNE *suivant = actuel->suivant;
+        supprimer_colonne(&actuel->col); // On supprime la colonne
+        free(actuel); // On libère le noeud
+        actuel = suivant;
     }
+
+    free(*df); // On libère le dataframe
+    *df = NULL; // On met le pointeur à NULL
 }
 
-// Fonction pour ajouter une ligne de valeurs au dataframe
 void ajouter_ligne_dataframe(DATAFRAME *df, int *valeurs) {
-    // Vérifie si le dataframe et les valeurs sont valides
-    if (!df || !valeurs) 
-        return;
-
-    // Initialise un pointeur vers le nœud actuel
     NOEUD_COLONNE *actuel = df->tete;
     int index = 0;
-    // Parcourt tous les nœuds du dataframe
     while (actuel) {
-        // Ajoute la valeur correspondante à la colonne du nœud actuel
         ajouter_valeur_colonne(actuel->col, valeurs[index++]);
-        // Passe au prochain nœud
         actuel = actuel->suivant;
     }
 }
 
-// Fonction pour supprimer une ligne de valeurs du dataframe à un index donné
-void supprimer_ligne(DATAFRAME *df, int index) {
-    // Vérifie si le dataframe est valide
-    if (!df) 
-        return;
-
-    // Initialise un pointeur vers le nœud actuel
+void supprimer_ligne_dataframe(DATAFRAME *df, int index) {
     NOEUD_COLONNE *actuel = df->tete;
-    // Parcourt tous les nœuds du dataframe
     while (actuel) {
-        // Supprime la valeur à l'index donné de la colonne du nœud actuel
         supprimer_valeur_a_colonne(actuel->col, index);
-        // Passe au prochain nœud
         actuel = actuel->suivant;
     }
 }
 
-// Fonction pour obtenir la valeur à une position donnée dans le dataframe
-int obtenir_valeur(DATAFRAME *df, int ligne, int colonne) {
-    // Vérifie si le dataframe est valide
-    if (!df) 
-        return -1;
-
-    // Initialise un pointeur vers le nœud actuel
+int obtenir_valeur_dataframe(DATAFRAME *df, int ligne, int colonne) {
     NOEUD_COLONNE *actuel = df->tete;
-    // Parcourt les nœuds jusqu'à atteindre la colonne demandée
-    for (int i = 0; actuel && i < colonne; i++) {
+    int index = 0;
+    while (actuel && index < colonne) {
         actuel = actuel->suivant;
+        index++;
     }
-    // Si la colonne demandée n'existe pas, retourne -1
-    if (!actuel) 
-        return -1;
 
-    // Renvoie la valeur à la position donnée dans la colonne du nœud actuel
-    return obtenir_valeur_a_colonne(actuel->col, ligne);
+    if (actuel) {
+        return obtenir_valeur_colonne(actuel->col, ligne);
+    }
+
+    return -1; // Valeur par défaut si la colonne n'existe pas
 }
 
-// Fonction pour remplacer une valeur à une position donnée dans le dataframe
-void remplacer_valeur_df(DATAFRAME *df, int ligne, int colonne, int nouvelle_valeur) {
-    // Vérifie si le dataframe est valide
-    if (!df) 
-        return;
-
-    // Initialise un pointeur vers le nœud actuel
+void remplacer_valeur_dataframe(DATAFRAME *df, int ligne, int colonne, int nouvelle_valeur) {
     NOEUD_COLONNE *actuel = df->tete;
-    // Parcourt les nœuds jusqu'à atteindre la colonne demandée
-    for (int i = 0; actuel && i < colonne; i++) {
+    int index = 0;
+    while (actuel && index < colonne) {
         actuel = actuel->suivant;
+        index++;
     }
-    // Si la colonne demandée n'existe pas, retourne
-    if (!actuel) 
-        return;
 
-    // Remplace la valeur à la position donnée dans la colonne du nœud actuel
-    remplacer_valeur_colonne(actuel->col, ligne, nouvelle_valeur);
+    if (actuel) {
+        actuel->col->valeurs[ligne] = nouvelle_valeur;
+    }
 }
 
-// Fonction pour obtenir le nombre de lignes du dataframe
-int nombre_de_lignes(const DATAFRAME *df) {
-    // Vérifie si le dataframe est valide
-    if (!df) 
-        return 0;
-
-    // Initialise une variable pour stocker le nombre maximum de lignes
-    int max_lignes = 0;
-    // Initialise un pointeur vers le nœud actuel
-    NOEUD_COLONNE *actuel = df->tete;
-    // Parcourt tous les nœuds du dataframe
-    while (actuel) {
-        // Met à jour le nombre maximum de lignes si nécessaire
-        if (actuel->col->taille > max_lignes) {
-            max_lignes = actuel->col->taille;
-        }
-        // Passe au prochain nœud
-        actuel = actuel->suivant;
-    }
-    return max_lignes;
+int nombre_de_lignes_dataframe(const DATAFRAME *df) {
+    if (!df || !df->tete) return 0;
+    return df->tete->col->taille;
 }
 
-// Fonction pour obtenir le nombre de colonnes du dataframe
-int nombre_de_colonnes(const DATAFRAME *df) {
-    // Vérifie si le dataframe est valide
-    if (!df) 
-        return 0;
+int nombre_de_colonnes_dataframe(const DATAFRAME *df) {
+    if (!df) return 0;
 
-    // Initialise un compteur pour le nombre de colonnes
     int compteur = 0;
-    // Initialise un pointeur vers le nœud actuel
     NOEUD_COLONNE *actuel = df->tete;
-    // Parcourt tous les nœuds du dataframe
     while (actuel) {
-        // Incrémente le compteur de colonnes
         compteur++;
-        // Passe au prochain nœud
         actuel = actuel->suivant;
     }
     return compteur;
 }
 
-// Fonction pour afficher les noms des colonnes du dataframe
-void afficher_noms_colonnes(const DATAFRAME *df) {
-    // Vérifie si le dataframe est valide
-    if (!df) 
-        return;
+void afficher_noms_colonnes_dataframe(const DATAFRAME *df) {
+    if (!df) return;
 
-    // Initialise un pointeur vers le nœud actuel
     NOEUD_COLONNE *actuel = df->tete;
-    // Parcourt tous les nœuds du dataframe
     while (actuel) {
-        // Affiche le titre de la colonne du nœud actuel
-        printf("%s\n", actuel->col->titre);
-        // Passe au prochain nœud
+        printf("%s\t", actuel->col->titre);
         actuel = actuel->suivant;
+    }
+    printf("\n");
+}
+
+void afficher_lignes_limite_dataframe(const DATAFRAME *df, int limite) {
+    if (!df) return;
+
+    int lignes = nombre_de_lignes_dataframe(df);
+    limite = (limite > lignes) ? lignes : limite;
+
+    NOEUD_COLONNE *actuel = df->tete;
+    while (actuel) {
+        printf("%s\t", actuel->col->titre);
+        actuel = actuel->suivant;
+    }
+    printf("\n");
+
+    for (int i = 0; i < limite; i++) {
+        actuel = df->tete;
+        while (actuel) {
+            printf("%d\t", obtenir_valeur_colonne(actuel->col, i));
+            actuel = actuel->suivant;
+        }
+        printf("\n");
     }
 }
 
+void afficher_colonnes_limite_dataframe(const DATAFRAME *df, int limite) {
+    if (!df) return;
+
+    int colonnes = nombre_de_colonnes_dataframe(df);
+    limite = (limite > colonnes) ? colonnes : limite;
+
+    NOEUD_COLONNE *actuel = df->tete;
+    for (int i = 0; i < limite && actuel; i++) {
+        printf("%s\t", actuel->col->titre);
+        actuel = actuel->suivant;
+    }
+    printf("\n");
+
+    int lignes = nombre_de_lignes_dataframe(df);
+    for (int i = 0; i < lignes; i++) {
+        actuel = df->tete;
+        for (int j = 0; j < limite && actuel; j++) {
+            printf("%d\t", obtenir_valeur_colonne(actuel->col, i));
+            actuel = actuel->suivant;
+        }
+        printf("\n");
+    }
+}
+
+int nombre_valeurs_sup_a_x(const DATAFRAME *df, int x) {
+    if (!df) return 0;
+
+    int compteur = 0;
+    NOEUD_COLONNE *actuel = df->tete;
+    while (actuel) {
+        compteur += nombre_valeurs_sup_a_colonne(actuel->col, x);
+        actuel = actuel->suivant;
+    }
+    return compteur;
+}
+
+int nombre_valeurs_inf_a_x(const DATAFRAME *df, int x) {
+    if (!df) return 0;
+
+    int compteur = 0;
+    NOEUD_COLONNE *actuel = df->tete;
+    while (actuel) {
+        compteur += nombre_valeurs_inf_a_colonne(actuel->col, x);
+        actuel = actuel->suivant;
+    }
+    return compteur;
+}
+
+int nombre_valeurs_egales_a_x(const DATAFRAME *df, int x) {
+    if (!df) return 0;
+
+    int compteur = 0;
+    NOEUD_COLONNE *actuel = df->tete;
+    while (actuel) {
+        compteur += nombre_valeurs_egales_a_colonne(actuel->col, x);
+        actuel = actuel->suivant;
+    }
+    return compteur;
+}
