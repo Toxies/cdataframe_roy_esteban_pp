@@ -41,7 +41,7 @@ int insert_column(COLONNE* col, DATAFRAME* Dataframe) {
 
 
 
-void print_colDataframePos(DATAFRAME * Dataframe, int position){
+void print_colDataframePos(DATAFRAME * Dataframe, int position){ // can be used in a for loop to get the entire dataframe
     COLONNE * col = Dataframe->Data[position];
     printf("%s \n", Dataframe->titre);
     // Print column titles
@@ -53,7 +53,7 @@ void print_colDataframePos(DATAFRAME * Dataframe, int position){
     }
 }
 
-void printdataframe(DATAFRAME* Dataframe) {
+void printdataframe(DATAFRAME* Dataframe) { // doesnt work properly
     printf("%s\n", Dataframe->titre);
 
     // Print column titles
@@ -127,12 +127,34 @@ void print_all_column_names(DATAFRAME * Dataframe){
     printf("\n");
 }
 
+
 void amount_of_columns(DATAFRAME * Dataframe){
     int cpt=0;
     for (int i = 0; i < Dataframe->TL; i++){
         cpt++;
     }
     printf("%d column(s) in the Dataframe\n" ,cpt);
+}
+
+int non_null_lines_in_column(COLONNE *col) {
+    int cpt = 0;
+    for (int i = 0; i < col->TL; i++) {
+        if (col->Data[i] != -1) {  // -1 represents no data
+            cpt++;
+        }
+    }
+    return cpt;
+}
+
+void amount_of_lines(DATAFRAME * Dataframe) {
+    int max_lines = 0;
+    for (int i = 0; Dataframe->Data[i] != NULL; i++) {
+        int non_null_lines = non_null_lines_in_column(Dataframe->Data[i]);
+        if (non_null_lines > max_lines) {
+            max_lines = non_null_lines;
+        }
+    }
+    printf("%d line(s) in the dataframe", max_lines);
 }
 
 void rename_column(DATAFRAME * Dataframe){
@@ -149,26 +171,55 @@ void rename_column(DATAFRAME * Dataframe){
     printf(" is now : %s", (Dataframe->Data[col_pos])->titre);
 }
 
-void fill_dataframe_user_input(){
+void fill_dataframe_user_input(){ // function creates a dataframe filled with user inputs; doesn't work properly
     int value_to_insert, col_number = 0, bool = 0, choice;
-    char name_new_dataframe[20], first_col_name[20];
+    char name_new_dataframe[20],col_name[20],new_col_name[20];
+
+    // creates a new dataframe
     printf("Dataframe name ?\n");
     scanf("%s", name_new_dataframe);
     DATAFRAME *new_dataframe = create_dataframe(name_new_dataframe);
-    printf("First Column name ?\n");
-    scanf("%s", first_col_name);
-    COLONNE *first_col = create_colonne(first_col_name);
+
+    // creates a new column
+    printf("First column name ?\n");
+    scanf("%s", col_name);
+    COLONNE *first_col = create_colonne(col_name);
+    insert_column(first_col, new_dataframe);
+
+    // loop to fill the dataframe
     while (bool == 0){
-        printf("Do you want to insert a value ?\n[1 for yes / 0 for no]\n");
+        printf("Choose a function : \n");
+        printf("[0] Exit the function\n");
+        printf("[1] Insert a value\n");
+        printf("[2] Create a new column\n");
+        printf("[3] Print the dataframe\n");
         scanf("%d", &choice);
+
+        // When choice gets different values, the programm will execute different functions
+        // choice == 0 Exit the function
+        if (choice == 0) {
+            printf("Exiting the dataframe\n");
+            bool++;
+        }
+        // choice == 1 Insert a value
         if (choice == 1) {
             printf("What is the value to insert ?\n");
             scanf("%d", &value_to_insert);
-
             insert_value(first_col, value_to_insert);
+
         }
-        if (choice == 0) {
-            bool++;
+        // choice == 2 Create a column
+        if (choice == 2){
+            printf("Column name ?\n");
+            scanf("%s", new_col_name);
+            COLONNE *new_col = create_colonne(new_col_name);
+            insert_column(new_col, new_dataframe);
+        }
+        // choice == 3 Print dataframe
+        if (choice == 3){
+            printf("Printing the dataframe\n");
+            for (int i = 0; i < new_dataframe->TL; i++){
+                print_colDataframePos(new_dataframe, i);}
         }
     }
 }

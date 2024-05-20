@@ -36,7 +36,11 @@ int replacevalue(DATAFRAME * Dataframe, int value, int posx,int posy);
 void partialdataframeprint(DATAFRAME * Dataframe, int x1,int x2);
 void print_all_column_names(DATAFRAME * Dataframe);
 void amount_of_columns(DATAFRAME * Dataframe);
+void amount_of_lines(DATAFRAME * Dataframe);
+int non_null_lines_in_column(COLONNE *col);
 void rename_column(DATAFRAME * Dataframe);
 void fill_dataframe_user_input();
+
+
 
 #endif //CDATAFRAME_ROY_ESTEBAN_PP_DATAFRAME_H
