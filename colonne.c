@@ -102,23 +102,3 @@ int valeurégale(int x,COLONNE * col){
     }
     return valeuregale;
 }
-
-int insert_value_user_input(COLONNE* col) {
-    int data;
-    printf("What value do you want to insert ?\n");
-    scanf("%d", &data);
-    if (col == NULL || col->Data == NULL) {
-        // Invalid column or memory not allocated
-        return -1;  // Return an error code
-    }
-
-    if (col->TL == col->TP) {
-        printf("Column is full\n");
-        return -1;  // Return an error code
-    }
-
-    col->Data[col->TL] = data;
-    col->TL++;
-    printf("Success\n");
-    return 0;  // Return success code
-}

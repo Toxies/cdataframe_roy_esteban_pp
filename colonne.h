@@ -22,6 +22,5 @@ int valeurenposition(int x,COLONNE * col);
 int valeursupérieur(int x,COLONNE * col);
 int valeurinférieur(int x,COLONNE * col);
 int valeurégale(int x,COLONNE * col);
-int insert_value_user_input(COLONNE* col);
 
 #endif //CDATAFRAME_ROY_ESTEBAN_PP_COLONNE_H
