@@ -3,7 +3,7 @@
 #include <string.h>
 #include "colonne.h"
 
-#define CAPACITE_INITIALE 10
+#define CAPACITE_INITIALE 256
 
 COLONNE *creer_colonne(char *titre) {
     COLONNE *col = (COLONNE *)malloc(sizeof(COLONNE));
