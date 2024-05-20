@@ -92,7 +92,7 @@ void afficher_dataframe(const DATAFRAME *df) {
         actuel = df->tete;
         while (actuel) {
             if (i < actuel->col->taille) {
-                printf("%d\t", actuel->col->valeurs[i]);
+                printf("\t%d\t", actuel->col->valeurs[i]);
             } else {
                 printf("\t");
             }

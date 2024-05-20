@@ -31,7 +31,7 @@ int main() {
     ajouter_ligne_dataframe(df, valeurs_ligne);
     afficher_dataframe(df);
 
-    printf("Suppression de la ligne 1:\n");
+    printf("Suppression de la ligne 2:\n");
     supprimer_ligne(df, 1);
     afficher_dataframe(df);
 
@@ -50,9 +50,9 @@ int main() {
     remplacer_valeur_df(df, 0, 0, 42);
     afficher_dataframe(df);
 
-    printf("Nombre de valeurs egales a 42: %d\n", nombre_valeurs_egales_a(col1, 42));
-    printf("Nombre de valeurs superieures a 5: %d\n", nombre_valeurs_sup_a(col1, 5));
-    printf("Nombre de valeurs inferieures a 10: %d\n", nombre_valeurs_inf_a(col1, 10));
+    printf("Nombre de valeurs egales a 42 : %d\n", nombre_valeurs_egales_a(col2, 42)+nombre_valeurs_egales_a(col3, 42));
+    printf("Nombre de valeurs superieures a 5 : %d\n", nombre_valeurs_sup_a(col2, 5)+nombre_valeurs_sup_a(col2, 5));
+    printf("Nombre de valeurs inferieures a 10 : %d\n", nombre_valeurs_inf_a(col2, 10)+nombre_valeurs_inf_a(col2, 10));
 
     liberer_dataframe(&df);
 
