@@ -1,116 +1,184 @@
-//
-// Created by esteb on 15/05/2024.
-//
-
-#include "dataframe.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "dataframe.h"
 
-
-
-struct DATAFRAME* create_dataframe(char* titre) {
-    struct DATAFRAME* dataframe = malloc(sizeof(DATAFRAME));  // Allocate memory for the column
-    if (dataframe != NULL) {
-        dataframe->titre = titre;
-        dataframe->TL = 0;
-        dataframe->TP = 256;
-        dataframe->Data = malloc(sizeof(COLONNE) * 256);
-        if (dataframe->Data == NULL) {
-            // Handle memory allocation failure
-            free(dataframe);
-            return NULL;
-        }
-    }
-    return dataframe;
+DATAFRAME *creer_dataframe() {
+    DATAFRAME *df = (DATAFRAME *)malloc(sizeof(DATAFRAME));
+    df->tete = NULL;
+    df->queue = NULL;
+    return df;
 }
 
+void ajouter_colonne(DATAFRAME *df, COLONNE *col) {
+    NOEUD_COLONNE *nouveau_noeud = (NOEUD_COLONNE *)malloc(sizeof(NOEUD_COLONNE));
+    nouveau_noeud->col = col;
+    nouveau_noeud->suivant = NULL;
+    nouveau_noeud->precedent = df->queue;
 
-int insert_column(COLONNE* col, DATAFRAME* Dataframe) {
-    if (Dataframe == NULL || col == NULL) {
-        printf("Invalid arguments\n");
-        return -1;  // Return an error code
+    if (df->queue) {
+        df->queue->suivant = nouveau_noeud;
+    } else {
+        df->tete = nouveau_noeud;
     }
 
-    // Insert the column into the dataframe
-    Dataframe->Data[Dataframe->TL] = col;
-    Dataframe->TL++;
-
-    printf("Success\n");
-    return 0;  // Return success code
+    df->queue = nouveau_noeud;
 }
 
+void supprimer_colonne_a(DATAFRAME *df, int index) {
+    if (!df->tete) return;
 
+    NOEUD_COLONNE *actuel = df->tete;
 
-void print_colDataframePos(DATAFRAME * Dataframe, int position){
-    COLONNE * col = &(Dataframe->Data[position]);
-    printf("%s \n", Dataframe->titre);
-    for (int i = 0; i < col->TL;i++){
-        printf("[%d] %d \n", i, *(col->Data + i));
+    for (int i = 0; actuel != NULL && i < index; i++) {
+        actuel = actuel->suivant;
     }
+
+    if (!actuel) return; // Index hors limites
+
+    if (actuel->precedent) {
+        actuel->precedent->suivant = actuel->suivant;
+    } else {
+        df->tete = actuel->suivant;
+    }
+
+    if (actuel->suivant) {
+        actuel->suivant->precedent = actuel->precedent;
+    } else {
+        df->queue = actuel->precedent;
+    }
+
+    supprimer_colonne(&(actuel->col));
+    free(actuel);
 }
 
-void printdataframe(DATAFRAME* Dataframe) {
-    printf("%s\n", Dataframe->titre);
+void afficher_dataframe(const DATAFRAME *df) {
+    if (!df) return;
 
-    // Print column titles
-    for (int i = 0; i < Dataframe->TL; i++) {
-        printf("%s\t", (Dataframe->Data[i])->titre);
+    // Afficher les titres des colonnes
+    NOEUD_COLONNE *actuel = df->tete;
+    while (actuel) {
+        printf("%s\t", actuel->col->titre);
+        actuel = actuel->suivant;
     }
     printf("\n");
 
-    // Print data in columns
-    for (int j = 0; j < Dataframe->TL; j++) {
-        for (int i = 0; i < Dataframe->TL; i++) {
-            if (j < Dataframe->Data[i]->TL) {
-                printf("\t%d\t", Dataframe->Data[i]->Data[j]);
+    // Trouver le nombre maximum de lignes
+    int max_lignes = 0;
+    actuel = df->tete;
+    while (actuel) {
+        if (actuel->col->taille > max_lignes) {
+            max_lignes = actuel->col->taille;
+        }
+        actuel = actuel->suivant;
+    }
+
+    // Afficher les valeurs
+    for (int i = 0; i < max_lignes; i++) {
+        actuel = df->tete;
+        while (actuel) {
+            if (i < actuel->col->taille) {
+                printf("\t%d\t", actuel->col->valeurs[i]);
             } else {
-                printf("\t");
+                printf("\t \t");
             }
+            actuel = actuel->suivant;
         }
         printf("\n");
     }
 }
 
-int verifyExistence(DATAFRAME * Dataframe, int value){
-    int Found = 0;
-    int i = 0;
-    while (Found == 0 && i < Dataframe->TL){
-        if (occurence(value, Dataframe->Data[i])){
-            Found = 1;
+void liberer_dataframe(DATAFRAME **df) {
+    if (*df) {
+        NOEUD_COLONNE *actuel = (*df)->tete;
+        while (actuel) {
+            NOEUD_COLONNE *suivant = actuel->suivant;
+            supprimer_colonne(&(actuel->col));
+            free(actuel);
+            actuel = suivant;
         }
-        i++;
+        free(*df);
+        *df = NULL;
     }
-    return Found;
 }
 
-int replacevalue(DATAFRAME * Dataframe, int value, int posx,int posy){
-    if (posx > Dataframe->TL || posx < 0 || posy < 0){
-        return -1;
+void ajouter_ligne(DATAFRAME *df, int *valeurs) {
+    if (!df || !valeurs) return;
+
+    NOEUD_COLONNE *actuel = df->tete;
+    int index = 0;
+    while (actuel) {
+        ajouter_valeur(actuel->col, valeurs[index++]);
+        actuel = actuel->suivant;
     }
-    if (posx > Dataframe->Data[posy]->TL) {
-        return -1;
-    }
-    Dataframe->Data[posy]->Data[posx] = value;
-    return 1;
 }
 
-void partialdataframeprint(DATAFRAME * Dataframe, int x1, int x2) {
-    printf("%s\n", Dataframe->titre);
+void supprimer_ligne(DATAFRAME *df, int index) {
+    if (!df) return;
 
+    NOEUD_COLONNE *actuel = df->tete;
+    while (actuel) {
+        supprimer_valeur_a(actuel->col, index);
+        actuel = actuel->suivant;
+    }
+}
 
-    for (int i = x1; i < x2; i++) {
-        printf("%s\t", (Dataframe->Data[i])->titre);
+int obtenir_valeur(DATAFRAME *df, int ligne, int colonne) {
+    if (!df) return -1;
+
+    NOEUD_COLONNE *actuel = df->tete;
+    for (int i = 0; actuel && i < colonne; i++) {
+        actuel = actuel->suivant;
+    }
+    if (!actuel) return -1; // Colonne hors limites
+
+    return obtenir_valeur_a(actuel->col, ligne);
+}
+
+void remplacer_valeur_df(DATAFRAME *df, int ligne, int colonne, int nouvelle_valeur) {
+    if (!df) return;
+
+    NOEUD_COLONNE *actuel = df->tete;
+    for (int i = 0; actuel && i < colonne; i++) {
+        actuel = actuel->suivant;
+    }
+    if (!actuel) return; // Colonne hors limites
+
+    remplacer_valeur(actuel->col, ligne, nouvelle_valeur);
+}
+
+int nombre_de_lignes(const DATAFRAME *df) {
+    if (!df) return 0;
+
+    int max_lignes = 0;
+    NOEUD_COLONNE *actuel = df->tete;
+    while (actuel) {
+        if (actuel->col->taille > max_lignes) {
+            max_lignes = actuel->col->taille;
+        }
+        actuel = actuel->suivant;
+    }
+    return max_lignes;
+}
+
+int nombre_de_colonnes(const DATAFRAME *df) {
+    if (!df) return 0;
+
+    int compteur = 0;
+    NOEUD_COLONNE *actuel = df->tete;
+    while (actuel) {
+        compteur++;
+        actuel = actuel->suivant;
+    }
+    return compteur;
+}
+
+void afficher_noms_colonnes(const DATAFRAME *df) {
+    if (!df) return;
+
+    NOEUD_COLONNE *actuel = df->tete;
+    while (actuel) {
+        printf("%s\t", actuel->col->titre);
+        actuel = actuel->suivant;
     }
     printf("\n");
-
-    for (int j = 0; j < Dataframe->TL; j++) {
-        for (int i = x1; i < x2; i++) {
-            if (j < Dataframe->Data[i]->TL) {
-                printf("\t%d\t", Dataframe->Data[i]->Data[j]);
-            } else {
-                printf("\t");
-            }
-        }
-        printf("\n");
-    }
 }
