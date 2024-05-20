@@ -87,7 +87,12 @@ int verifyExistence(DATAFRAME * Dataframe, int value){
     return Found;
 }
 
-int replacevalue(DATAFRAME * Dataframe, int value, int posx,int posy){
+int replacevalue(DATAFRAME * Dataframe){
+    int value, posx, posy;
+    printf("Choose the value that will replace the old one ; \n");
+    scanf("%d", &value);
+    printf("Specify the positons x and y of the value that will be replaced using this format : x/y\n");
+    scanf("%d/%d", &posx,&posy);
     if (posx > Dataframe->TL || posx < 0 || posy < 0){
         return -1;
     }
@@ -154,7 +159,7 @@ void amount_of_lines(DATAFRAME * Dataframe) {
             max_lines = non_null_lines;
         }
     }
-    printf("%d line(s) in the dataframe", max_lines);
+    printf("%d line(s) in the dataframe\n", max_lines);
 }
 
 void rename_column(DATAFRAME * Dataframe){
@@ -169,57 +174,4 @@ void rename_column(DATAFRAME * Dataframe){
     printf("%s",(Dataframe->Data[col_pos])->titre);
     (Dataframe->Data[col_pos])->titre = new_col_name;
     printf(" is now : %s", (Dataframe->Data[col_pos])->titre);
-}
-
-void fill_dataframe_user_input(){ // function creates a dataframe filled with user inputs; doesn't work properly
-    int value_to_insert, col_number = 0, bool = 0, choice;
-    char name_new_dataframe[20],col_name[20],new_col_name[20];
-
-    // creates a new dataframe
-    printf("Dataframe name ?\n");
-    scanf("%s", name_new_dataframe);
-    DATAFRAME *new_dataframe = create_dataframe(name_new_dataframe);
-
-    // creates a new column
-    printf("First column name ?\n");
-    scanf("%s", col_name);
-    COLONNE *first_col = create_colonne(col_name);
-    insert_column(first_col, new_dataframe);
-
-    // loop to fill the dataframe
-    while (bool == 0){
-        printf("Choose a function : \n");
-        printf("[0] Exit the function\n");
-        printf("[1] Insert a value\n");
-        printf("[2] Create a new column\n");
-        printf("[3] Print the dataframe\n");
-        scanf("%d", &choice);
-
-        // When choice gets different values, the programm will execute different functions
-        // choice == 0 Exit the function
-        if (choice == 0) {
-            printf("Exiting the dataframe\n");
-            bool++;
-        }
-        // choice == 1 Insert a value
-        if (choice == 1) {
-            printf("What is the value to insert ?\n");
-            scanf("%d", &value_to_insert);
-            insert_value(first_col, value_to_insert);
-
-        }
-        // choice == 2 Create a column
-        if (choice == 2){
-            printf("Column name ?\n");
-            scanf("%s", new_col_name);
-            COLONNE *new_col = create_colonne(new_col_name);
-            insert_column(new_col, new_dataframe);
-        }
-        // choice == 3 Print dataframe
-        if (choice == 3){
-            printf("Printing the dataframe\n");
-            for (int i = 0; i < new_dataframe->TL; i++){
-                print_colDataframePos(new_dataframe, i);}
-        }
-    }
 }
