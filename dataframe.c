@@ -35,7 +35,7 @@ void ajouter_colonne_dataframe(DATAFRAME *df, COLONNE *col) {
 }
 
 // Fonction pour supprimer une colonne du dataframe à un index donné
-void supprimer_colonne_a_dataframe(DATAFRAME *df, int index) {
+void supprimer_colonne_a(DATAFRAME *df, int index) {
     // Vérifie si le dataframe est valide et si l'index est positif
     if (!df || index < 0) 
         return;
@@ -85,7 +85,7 @@ void afficher_dataframe(const DATAFRAME *df) {
     printf("\n");
 
     // Trouve le nombre maximum de lignes
-    int max_lignes = nombre_de_lignes_dataframe(df);
+    int max_lignes = nombre_de_lignes(df);
 
     // Affiche les valeurs
     for (int i = 0; i < max_lignes; i++) {
@@ -145,7 +145,7 @@ void ajouter_ligne_dataframe(DATAFRAME *df, int *valeurs) {
 }
 
 // Fonction pour supprimer une ligne de valeurs du dataframe à un index donné
-void supprimer_ligne_dataframe(DATAFRAME *df, int index) {
+void supprimer_ligne(DATAFRAME *df, int index) {
     // Vérifie si le dataframe est valide
     if (!df) 
         return;
@@ -162,7 +162,7 @@ void supprimer_ligne_dataframe(DATAFRAME *df, int index) {
 }
 
 // Fonction pour obtenir la valeur à une position donnée dans le dataframe
-int obtenir_valeur_dataframe(DATAFRAME *df, int ligne, int colonne) {
+int obtenir_valeur(DATAFRAME *df, int ligne, int colonne) {
     // Vérifie si le dataframe est valide
     if (!df) 
         return -1;
@@ -182,7 +182,7 @@ int obtenir_valeur_dataframe(DATAFRAME *df, int ligne, int colonne) {
 }
 
 // Fonction pour remplacer une valeur à une position donnée dans le dataframe
-void remplacer_valeur_dataframe(DATAFRAME *df, int ligne, int colonne, int nouvelle_valeur) {
+void remplacer_valeur_df(DATAFRAME *df, int ligne, int colonne, int nouvelle_valeur) {
     // Vérifie si le dataframe est valide
     if (!df) 
         return;
@@ -202,7 +202,7 @@ void remplacer_valeur_dataframe(DATAFRAME *df, int ligne, int colonne, int nouve
 }
 
 // Fonction pour obtenir le nombre de lignes du dataframe
-int nombre_de_lignes_dataframe(const DATAFRAME *df) {
+int nombre_de_lignes(const DATAFRAME *df) {
     // Vérifie si le dataframe est valide
     if (!df) 
         return 0;
@@ -224,7 +224,7 @@ int nombre_de_lignes_dataframe(const DATAFRAME *df) {
 }
 
 // Fonction pour obtenir le nombre de colonnes du dataframe
-int nombre_de_colonnes_dataframe(const DATAFRAME *df) {
+int nombre_de_colonnes(const DATAFRAME *df) {
     // Vérifie si le dataframe est valide
     if (!df) 
         return 0;
@@ -244,7 +244,7 @@ int nombre_de_colonnes_dataframe(const DATAFRAME *df) {
 }
 
 // Fonction pour afficher les noms des colonnes du dataframe
-void afficher_noms_colonnes_dataframe(const DATAFRAME *df) {
+void afficher_noms_colonnes(const DATAFRAME *df) {
     // Vérifie si le dataframe est valide
     if (!df) 
         return;

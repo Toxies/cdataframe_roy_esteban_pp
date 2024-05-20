@@ -6,29 +6,29 @@ int main() {
     DATAFRAME *df = creer_dataframe();
 
     COLONNE *col1 = creer_colonne("Colonne 1");
-    ajouter_valeur(col1, 5);
-    ajouter_valeur(col1, 10);
-    ajouter_valeur(col1, 15);
+    ajouter_valeur_colonne(col1, 5);
+    ajouter_valeur_colonne(col1, 10);
+    ajouter_valeur_colonne(col1, 15);
 
     COLONNE *col2 = creer_colonne("Colonne 2");
-    ajouter_valeur(col2, 3);
-    ajouter_valeur(col2, 6);
-    ajouter_valeur(col2, 9);
+    ajouter_valeur_colonne(col2, 3);
+    ajouter_valeur_colonne(col2, 6);
+    ajouter_valeur_colonne(col2, 9);
 
     COLONNE *col3 = creer_colonne("Colonne 3");
-    ajouter_valeur(col3, 1);
-    ajouter_valeur(col3, 2);
+    ajouter_valeur_colonne(col3, 1);
+    ajouter_valeur_colonne(col3, 2);
 
-    ajouter_colonne(df, col1);
-    ajouter_colonne(df, col2);
-    ajouter_colonne(df, col3);
+    ajouter_colonne_dataframe(df, col1);
+    ajouter_colonne_dataframe(df, col2);
+    ajouter_colonne_dataframe(df, col3);
 
     printf("Dataframe initial:\n");
     afficher_dataframe(df);
 
     printf("Ajout d'une ligne de valeurs:\n");
     int valeurs_ligne[] = {20, 21, 22};
-    ajouter_ligne(df, valeurs_ligne);
+    ajouter_ligne_dataframe(df, valeurs_ligne);
     afficher_dataframe(df);
 
     printf("Suppression de la ligne 1:\n");
@@ -50,9 +50,9 @@ int main() {
     remplacer_valeur_df(df, 0, 0, 42);
     afficher_dataframe(df);
 
-    printf("Nombre de valeurs egales a 42: %d\n", compter_egales_a(col1, 42));
-    printf("Nombre de valeurs superieures a 5: %d\n", compter_superieures_a(col1, 5));
-    printf("Nombre de valeurs inferieures a 10: %d\n", compter_inferieures_a(col1, 10));
+    printf("Nombre de valeurs egales a 42: %d\n", nombre_valeurs_egales_a(col1, 42));
+    printf("Nombre de valeurs superieures a 5: %d\n", nombre_valeurs_sup_a(col1, 5));
+    printf("Nombre de valeurs inferieures a 10: %d\n", nombre_valeurs_inf_a(col1, 10));
 
     liberer_dataframe(&df);
 

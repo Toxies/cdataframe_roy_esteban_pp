@@ -18,11 +18,11 @@ typedef struct dataframe {
 
 // Fonctions de gestion de dataframe
 DATAFRAME *creer_dataframe();                               // Crée un nouveau dataframe
-void ajouter_colonne(DATAFRAME *df, COLONNE *col);           // Ajoute une colonne au dataframe
+void ajouter_colonne_dataframe(DATAFRAME *df, COLONNE *col);// Ajoute une colonne au dataframe
 void supprimer_colonne_a(DATAFRAME *df, int index);          // Supprime une colonne du dataframe à un index donné
 void afficher_dataframe(const DATAFRAME *df);                // Affiche les valeurs du dataframe
 void liberer_dataframe(DATAFRAME **df);                      // Libère la mémoire occupée par le dataframe
-void ajouter_ligne(DATAFRAME *df, int *valeurs);             // Ajoute une ligne de valeurs au dataframe
+void ajouter_ligne_dataframe(DATAFRAME *df, int *valeurs);   // Ajoute une ligne de valeurs au dataframe
 void supprimer_ligne(DATAFRAME *df, int index);              // Supprime une ligne du dataframe à un index donné
 int obtenir_valeur(DATAFRAME *df, int ligne, int colonne);   // Obtient la valeur à une position donnée dans le dataframe
 void remplacer_valeur_df(DATAFRAME *df, int ligne, int colonne, int nouvelle_valeur); // Remplace une valeur dans le dataframe
