@@ -3,126 +3,120 @@
 #include <string.h>
 #include "colonne.h"
 
-#define CAPACITE_INITIALE 256
+// Ceci est le fichier d'implémentation pour les colonnes dans un dataframe
+// On implémente ici les fonctions pour gérer une colonne
 
-COLONNE *creer_colonne(char *titre) {
-    COLONNE *col = (COLONNE *)malloc(sizeof(COLONNE));
-    col->titre = strdup(titre);
-    col->valeurs = (int *)malloc(CAPACITE_INITIALE * sizeof(int));
-    col->taille = 0;
-    col->capacite = CAPACITE_INITIALE;
-    return col;
+COLONNE *creer_colonne(const char *titre) {
+    COLONNE *col = (COLONNE *)malloc(sizeof(COLONNE)); // On alloue de la mémoire pour la colonne
+    col->titre = strdup(titre); // On copie le titre de la colonne
+    col->valeurs = NULL; // On initialise les valeurs à NULL
+    col->taille = 0; // On initialise la taille à 0
+    return col; // On retourne la nouvelle colonne
 }
 
-void ajouter_valeur(COLONNE *col, int valeur) {
-    if (col->taille == col->capacite) {
-        col->capacite *= 2;
-        col->valeurs = (int *)realloc(col->valeurs, col->capacite * sizeof(int));
+void supprimer_colonne(COLONNE **col) {
+    if (*col) {
+        free((*col)->titre); // On libère la mémoire du titre
+        free((*col)->valeurs); // On libère la mémoire des valeurs
+        free(*col); // On libère la mémoire de la colonne
+        *col = NULL; // On met le pointeur de colonne à NULL
     }
-    col->valeurs[col->taille++] = valeur;
 }
 
-void supprimer_valeur_a(COLONNE *col, int index) {
-    if (index < 0 || index >= col->taille) return;
-    for (int i = index; i < col->taille - 1; i++) {
-        col->valeurs[i] = col->valeurs[i + 1];
+void ajouter_valeur_colonne(COLONNE *col, int valeur) {
+    col->valeurs = (int *)realloc(col->valeurs, (col->taille + 1) * sizeof(int)); // On réalloue la mémoire pour ajouter une nouvelle valeur
+    col->valeurs[col->taille] = valeur; // On ajoute la nouvelle valeur
+    col->taille++; // On incrémente la taille de la colonne
+}
+
+void supprimer_valeur_a_colonne(COLONNE *col, int index) {
+    if (col && index >= 0 && index < col->taille) {
+        for (int i = index; i < col->taille - 1; i++) {
+            col->valeurs[i] = col->valeurs[i + 1]; // On décale les valeurs pour supprimer celle à l'index donné
+        }
+        col->valeurs = (int *)realloc(col->valeurs, (col->taille - 1) * sizeof(int)); // On réalloue la mémoire pour supprimer une valeur
+        col->taille--; // On décrémente la taille de la colonne
     }
-    col->taille--;
-}
-
-void afficher_colonne(const COLONNE *col) {
-    if (!col) return;
-    printf("Titre de la colonne : %s\n", col->titre);
-    for (int i = 0; i < col->taille; i++) {
-        printf("%d ", col->valeurs[i]);
-    }
-    printf("\n");
-}
-
-int obtenir_valeur_a(const COLONNE *col, int index) {
-    if (index < 0 || index >= col->taille) return -1; // Retourne -1 si l'index est hors limites
-    return col->valeurs[index];
-}
-
-int compter_occurrences(const COLONNE *col, int x) {
-    int compteur = 0;
-    for (int i = 0; i < col->taille; i++) {
-        if (col->valeurs[i] == x) compteur++;
-    }
-    return compteur;
-}
-
-int compter_superieures_a(const COLONNE *col, int x) {
-    int compteur = 0;
-    for (int i = 0; i < col->taille; i++) {
-        if (col->valeurs[i] > x) compteur++;
-    }
-    return compteur;
-}
-
-int compter_inferieures_a(const COLONNE *col, int x) {
-    int compteur = 0;
-    for (int i = 0; i < col->taille; i++) {
-        if (col->valeurs[i] < x) compteur++;
-    }
-    return compteur;
-}
-
-int compter_egales_a(const COLONNE *col, int x) {
-    return compter_occurrences(col, x);
 }
 
 void trier_colonne(COLONNE *col) {
-    if (!col || col->taille < 2) return;
-    for (int i = 0; i < col->taille - 1; i++) {
-        for (int j = 0; j < col->taille - i - 1; j++) {
-            if (col->valeurs[j] > col->valeurs[j + 1]) {
-                int temp = col->valeurs[j];
-                col->valeurs[j] = col->valeurs[j + 1];
-                col->valeurs[j + 1] = temp;
+    if (col) {
+        for (int i = 0; i < col->taille - 1; i++) {
+            for (int j = i + 1; j < col->taille; j++) {
+                if (col->valeurs[i] > col->valeurs[j]) {
+                    int temp = col->valeurs[i]; // On fait un échange pour trier les valeurs
+                    col->valeurs[i] = col->valeurs[j];
+                    col->valeurs[j] = temp;
+                }
             }
         }
     }
 }
 
-void mettre_a_jour_index(COLONNE *col) {
-    trier_colonne(col);
-}
-
-int rechercher_valeur_dans_colonne(COLONNE *col, int val) {
-    if (!col || col->taille == 0) return 0;
-    trier_colonne(col);
-    int debut = 0, fin = col->taille - 1;
-    while (debut <= fin) {
-        int milieu = debut + (fin - debut) / 2;
-        if (col->valeurs[milieu] == val) {
-            return 1; // Valeur trouvée
-        } else if (col->valeurs[milieu] < val) {
-            debut = milieu + 1;
-        } else {
-            fin = milieu - 1;
-        }
-    }
-    return 0; // Valeur non trouvée
-}
-
-void supprimer_colonne(COLONNE **col) {
-    if (*col) {
-        free((*col)->titre);
-        free((*col)->valeurs);
-        free(*col);
-        *col = NULL;
-    }
-}
-
 void renommer_colonne(COLONNE *col, const char *nouveau_titre) {
     if (col) {
-        free(col->titre);
-        col->titre = strdup(nouveau_titre);
+        free(col->titre); // On libère l'ancien titre
+        col->titre = strdup(nouveau_titre); // On copie le nouveau titre
     }
 }
 
-void remplacer_valeur(COLONNE *col, int index, int nouvelle_valeur) {
-    if (index < 0 || index >= col->taille) return;
-    col->valeurs[index] = nouvelle_valeur;
+void remplacer_valeur_colonne(COLONNE *col, int index, int nouvelle_valeur) {
+    if (col && index >= 0 && index < col->taille) {
+        col->valeurs[index] = nouvelle_valeur; // On remplace la valeur à l'index donné
+    }
+}
+
+int obtenir_valeur_a_colonne(COLONNE *col, int index) {
+    if (col && index >= 0 && index < col->taille) {
+        return col->valeurs[index]; // On retourne la valeur à l'index donné
+    }
+    return -1; // On retourne -1 si l'index est invalide
+}
+
+int nombre_occurrences_valeur(COLONNE *col, int valeur) {
+    int count = 0;
+    if (col) {
+        for (int i = 0; i < col->taille; i++) {
+            if (col->valeurs[i] == valeur) {
+                count++; // On compte le nombre d'occurrences de la valeur
+            }
+        }
+    }
+    return count; // On retourne le nombre d'occurrences
+}
+
+int nombre_valeurs_sup_a(COLONNE *col, int valeur) {
+    int count = 0;
+    if (col) {
+        for (int i = 0; i < col->taille; i++) {
+            if (col->valeurs[i] > valeur) {
+                count++; // On compte le nombre de valeurs supérieures à la valeur donnée
+            }
+        }
+    }
+    return count; // On retourne le nombre de valeurs supérieures
+}
+
+int nombre_valeurs_inf_a(COLONNE *col, int valeur) {
+    int count = 0;
+    if (col) {
+        for (int i = 0; i < col->taille; i++) {
+            if (col->valeurs[i] < valeur) {
+                count++; // On compte le nombre de valeurs inférieures à la valeur donnée
+            }
+        }
+    }
+    return count; // On retourne le nombre de valeurs inférieures
+}
+
+int nombre_valeurs_egales_a(COLONNE *col, int valeur) {
+    int count = 0;
+    if (col) {
+        for (int i = 0; i < col->taille; i++) {
+            if (col->valeurs[i] == valeur) {
+                count++; // On compte le nombre de valeurs égales à la valeur donnée
+            }
+        }
+    }
+    return count; // On retourne le nombre de valeurs égales
 }
