@@ -1,38 +1,31 @@
-//
-// Created by esteb on 15/05/2024.
-//
+#ifndef DATAFRAME_H
+#define DATAFRAME_H
 
-#ifndef CDATAFRAME_ROY_ESTEBAN_PP_DATAFRAME_H
-#define CDATAFRAME_ROY_ESTEBAN_PP_DATAFRAME_H
 #include "colonne.h"
 
-struct DATAFRAME{
-    char* titre;
-    int TP;
-    int TL;
-    COLONNE** Data;  // Pointer to an array of COLONNE structures
-};
+typedef struct noeud_colonne {
+    COLONNE *col;
+    struct noeud_colonne *precedent;
+    struct noeud_colonne *suivant;
+} NOEUD_COLONNE;
 
-typedef struct DATAFRAME DATAFRAME;
+typedef struct dataframe {
+    NOEUD_COLONNE *tete;
+    NOEUD_COLONNE *queue;
+} DATAFRAME;
 
-typedef struct lnode_ {
-    void *data; // Pointer to a column
-    struct lnode_ *prev;
-    struct lnode_ *next;
-} LNODE;
+// Fonctions de gestion de dataframe
+DATAFRAME *creer_dataframe();
+void ajouter_colonne(DATAFRAME *df, COLONNE *col);
+void supprimer_colonne_a(DATAFRAME *df, int index);
+void afficher_dataframe(const DATAFRAME *df);
+void liberer_dataframe(DATAFRAME **df);
+void ajouter_ligne(DATAFRAME *df, int *valeurs);
+void supprimer_ligne(DATAFRAME *df, int index);
+int obtenir_valeur(DATAFRAME *df, int ligne, int colonne);
+void remplacer_valeur_df(DATAFRAME *df, int ligne, int colonne, int nouvelle_valeur);
+int nombre_de_lignes(const DATAFRAME *df);
+int nombre_de_colonnes(const DATAFRAME *df);
+void afficher_noms_colonnes(const DATAFRAME *df);
 
-typedef struct list_ {
-    LNODE *head;
-    LNODE *tail;
-} LIST;
-typedef LIST CDATAFRAME;
-
-struct DATAFRAME* create_dataframe(char* titre);
-int insert_column(COLONNE* col, DATAFRAME* Dataframe);
-void print_colDataframePos(DATAFRAME * Dataframe, int position);
-void printdataframe(DATAFRAME * Dataframe);
-int verifyExistence(DATAFRAME * Dataframe, int value);
-int replacevalue(DATAFRAME * Dataframe, int value, int posx,int posy);
-void partialdataframeprint(DATAFRAME * Dataframe, int x1,int x2);
-
-#endif //CDATAFRAME_ROY_ESTEBAN_PP_DATAFRAME_H
+#endif // DATAFRAME_H
