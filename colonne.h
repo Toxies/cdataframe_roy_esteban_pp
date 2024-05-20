@@ -16,8 +16,6 @@ void supprimer_colonne(COLONNE **col); // Fonction pour supprimer une colonne
 void ajouter_valeur_colonne(COLONNE *col, int valeur); // Fonction pour ajouter une valeur à une colonne
 int obtenir_valeur_colonne(const COLONNE *col, int index); // Fonction pour obtenir une valeur à un index donné
 void supprimer_valeur_a_colonne(COLONNE *col, int index); // Fonction pour supprimer une valeur à un index donné
-
-// Nouvelles fonctions pour compter les valeurs par rapport à x
 int nombre_valeurs_sup_a_colonne(const COLONNE *col, int x); // Fonction pour compter les valeurs supérieures à x dans une colonne
 int nombre_valeurs_inf_a_colonne(const COLONNE *col, int x); // Fonction pour compter les valeurs inférieures à x dans une colonne
 int nombre_valeurs_egales_a_colonne(const COLONNE *col, int x); // Fonction pour compter les valeurs égales à x dans une colonne
