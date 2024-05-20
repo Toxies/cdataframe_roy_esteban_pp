@@ -50,6 +50,13 @@ void supprimer_valeur_a_colonne(COLONNE *col, int index) {
     col->taille--;
 }
 
+void renommer_colonne(COLONNE *col, const char *nouveau_titre) {
+    if (col) {
+        free(col->titre); // On libère l'ancien titre
+        col->titre = strdup(nouveau_titre); // On copie le nouveau titre
+    }
+}
+
 int nombre_valeurs_sup_a_colonne(const COLONNE *col, int x) {
     int compteur = 0;
     for (int i = 0; i < col->taille; i++) {

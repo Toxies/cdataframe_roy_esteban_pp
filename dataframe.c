@@ -54,9 +54,13 @@ void supprimer_colonne_a_dataframe(DATAFRAME *df, int index) {
     }
 }
 
+// Fonction pour afficher les valeurs du dataframe
 void afficher_dataframe(const DATAFRAME *df) {
-    if (!df) return;
+    // Vérifie si le dataframe est valide
+    if (!df)
+        return;
 
+    // Affiche les titres des colonnes
     NOEUD_COLONNE *actuel = df->tete;
     while (actuel) {
         printf("%s\t", actuel->col->titre);
@@ -64,11 +68,18 @@ void afficher_dataframe(const DATAFRAME *df) {
     }
     printf("\n");
 
-    int lignes = nombre_de_lignes_dataframe(df);
-    for (int i = 0; i < lignes; i++) {
+    // Trouve le nombre maximum de lignes
+    int max_lignes = nombre_de_lignes_dataframe(df);
+
+    // Affiche les valeurs
+    for (int i = 0; i < max_lignes; i++) {
         actuel = df->tete;
         while (actuel) {
-            printf("%d\t", obtenir_valeur_colonne(actuel->col, i));
+            if (i < actuel->col->taille) {
+                printf("\t%d\t", actuel->col->valeurs[i]);
+            } else {
+                printf("\t");
+            }
             actuel = actuel->suivant;
         }
         printf("\n");
@@ -179,7 +190,7 @@ void afficher_lignes_limite_dataframe(const DATAFRAME *df, int limite) {
     for (int i = 0; i < limite; i++) {
         actuel = df->tete;
         while (actuel) {
-            printf("%d\t", obtenir_valeur_colonne(actuel->col, i));
+            printf("\t%d\t", obtenir_valeur_colonne(actuel->col, i));
             actuel = actuel->suivant;
         }
         printf("\n");
@@ -203,7 +214,7 @@ void afficher_colonnes_limite_dataframe(const DATAFRAME *df, int limite) {
     for (int i = 0; i < lignes; i++) {
         actuel = df->tete;
         for (int j = 0; j < limite && actuel; j++) {
-            printf("%d\t", obtenir_valeur_colonne(actuel->col, i));
+            printf("\t%d\t", obtenir_valeur_colonne(actuel->col, i));
             actuel = actuel->suivant;
         }
         printf("\n");
