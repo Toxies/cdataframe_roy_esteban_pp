@@ -1,27 +1,28 @@
-//
-// Created by esteb on 15/05/2024.
-//
+#ifndef COLONNE_H
+#define COLONNE_H
 
-#ifndef CDATAFRAME_ROY_ESTEBAN_PP_COLONNE_H
-#define CDATAFRAME_ROY_ESTEBAN_PP_COLONNE_H
+typedef struct colonne {
+    char *titre;
+    int *valeurs;
+    int taille;
+    int capacite;
+} COLONNE;
 
-struct colonne {
-    char* titre;
-    int TP;
-    int TL;
-    int* Data;
-};
-typedef struct colonne COLONNE;
+// Fonctions de gestion de colonne
+COLONNE *creer_colonne(char *titre);
+void ajouter_valeur(COLONNE *col, int valeur);
+void supprimer_valeur_a(COLONNE *col, int index);
+void afficher_colonne(const COLONNE *col);
+void trier_colonne(COLONNE *col);
+int obtenir_valeur_a(const COLONNE *col, int index);
+int compter_occurrences(const COLONNE *col, int x);
+int compter_supÃ©rieures_a(const COLONNE *col, int x);
+int compter_inferieures_a(const COLONNE *col, int x);
+int compter_egales_a(const COLONNE *col, int x);
+void supprimer_colonne(COLONNE **col);
+void mettre_a_jour_index(COLONNE *col);
+int rechercher_valeur_dans_colonne(COLONNE *col, int val);
+void renommer_colonne(COLONNE *col, const char *nouveau_titre);
+void remplacer_valeur(COLONNE *col, int index, int nouvelle_valeur);
 
-COLONNE* create_colonne(char* titre);
-int insert_value(COLONNE* col, int data);
-void delete_column(COLONNE* col);
-void print_col(COLONNE * col);
-int occurence(int x,COLONNE * col);
-int valeurenposition(int x,COLONNE * col);
-int valeursupérieur(int x,COLONNE * col);
-int valeurinférieur(int x,COLONNE * col);
-int valeurégale(int x,COLONNE * col);
-
-
-#endif //CDATAFRAME_ROY_ESTEBAN_PP_COLONNE_H
+#endif // COLONNE_H
