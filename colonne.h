@@ -1,28 +1,26 @@
 #ifndef COLONNE_H
 #define COLONNE_H
 
+// Ceci est le fichier d'en-tête pour les colonnes dans un dataframe
+// On déclare ici les structures et les fonctions pour gérer une colonne
+
 typedef struct colonne {
-    char *titre;
-    int *valeurs;
-    int taille;
-    int capacite;
+    char *titre;       // Le nom de la colonne
+    int *valeurs;      // Les valeurs dans la colonne
+    int taille;        // Le nombre d'éléments dans la colonne
 } COLONNE;
 
-// Fonctions de gestion de colonne
-COLONNE *creer_colonne(char *titre);
-void ajouter_valeur(COLONNE *col, int valeur);
-void supprimer_valeur_a(COLONNE *col, int index);
-void afficher_colonne(const COLONNE *col);
-void trier_colonne(COLONNE *col);
-int obtenir_valeur_a(const COLONNE *col, int index);
-int compter_occurrences(const COLONNE *col, int x);
-int compter_superieures_a(const COLONNE *col, int x);
-int compter_inferieures_a(const COLONNE *col, int x);
-int compter_egales_a(const COLONNE *col, int x);
-void supprimer_colonne(COLONNE **col);
-void mettre_a_jour_index(COLONNE *col);
-int rechercher_valeur_dans_colonne(COLONNE *col, int val);
-void renommer_colonne(COLONNE *col, const char *nouveau_titre);
-void remplacer_valeur(COLONNE *col, int index, int nouvelle_valeur);
+COLONNE *creer_colonne(const char *titre); // Fonction pour créer une nouvelle colonne
+void supprimer_colonne(COLONNE **col); // Fonction pour supprimer une colonne
+void ajouter_valeur_colonne(COLONNE *col, int valeur); // Fonction pour ajouter une valeur à la colonne
+void supprimer_valeur_a_colonne(COLONNE *col, int index); // Fonction pour supprimer une valeur à un index donné
+void trier_colonne(COLONNE *col); // Fonction pour trier les valeurs de la colonne
+void renommer_colonne(COLONNE *col, const char *nouveau_titre); // Fonction pour renommer la colonne
+void remplacer_valeur_colonne(COLONNE *col, int index, int nouvelle_valeur); // Fonction pour remplacer une valeur à un index donné
+int obtenir_valeur_a_colonne(COLONNE *col, int index); // Fonction pour obtenir une valeur à un index donné
+int nombre_occurrences_valeur(COLONNE *col, int valeur); // Fonction pour compter le nombre d'occurrences d'une valeur
+int nombre_valeurs_sup_a(COLONNE *col, int valeur); // Fonction pour compter le nombre de valeurs supérieures à une valeur donnée
+int nombre_valeurs_inf_a(COLONNE *col, int valeur); // Fonction pour compter le nombre de valeurs inférieures à une valeur donnée
+int nombre_valeurs_egales_a(COLONNE *col, int valeur); // Fonction pour compter le nombre de valeurs égales à une valeur donnée
 
 #endif // COLONNE_H
