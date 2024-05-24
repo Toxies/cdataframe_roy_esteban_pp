@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "dataframe.h"
 
 int main() {
@@ -81,6 +80,8 @@ int main() {
     printf("Nombre de valeurs egales a 42 : %d\n", nombre_valeurs_egales_a_x(df, 42));
     printf("Nombre de valeurs superieures a 5 : %d\n", nombre_valeurs_sup_a_x(df, 5));
     printf("Nombre de valeurs inferieures a 10 : %d\n", nombre_valeurs_inf_a_x(df, 10));
+
+    printf("Voici la valeur dans la cellule (x = 0 , y = 0) : %d ", obtenir_valeur_dataframe(df, 0,0));
 
     liberer_dataframe(&df);
 
